@@ -5,9 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Datata {
 
-    @SerializedName("id")
-    @Expose
-    private String id;
+    public Datata(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
     @SerializedName("title")
     @Expose
@@ -17,24 +18,30 @@ public class Datata {
     @Expose
     private String content;
 
-    public String getId() {
-        return id;
-    }
+
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {
         return content;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+    }
+
     @Override
     public String toString() {
         return "Datata{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
+                "title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 '}';
     }
 }
+
