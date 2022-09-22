@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".PutActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateActivity"
             android:exported="false" />
         <activity

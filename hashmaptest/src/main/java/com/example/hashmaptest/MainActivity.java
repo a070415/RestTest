@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,8 +24,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     TextView retrofitTextView;
-    RetrofitAPI retrofitAPI;
-
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
     List<Datata> dataInfo;
@@ -76,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+
+
+        // 게시판 수정
+        findViewById(R.id.btn_put).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PutActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
     }
 
     @Override
@@ -87,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 String str_content = data.getStringExtra("et_content");
 
                 //         Retrofit post 부분
-                Datata input = new Datata(str_title, str_content);
+                Datata input = new Datata(null, str_title, str_content);
 
                 Call<String> post_test = ApiClient.getApiService().createPost(input);
                 post_test.enqueue(new Callback<String>() {
@@ -106,6 +116,30 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+
+            else if(requestCode == 2) {
+                String str_put_title = data.getStringExtra("et_put_title");
+                String str_put_content = data.getStringExtra("et_put_content");
+                String str_put_id = data.getStringExtra("et_put_id");
+
+                // put 수정 부분
+                Datata da = new Datata(null, str_put_title, str_put_content);
+
+                Call<String> put_call = ApiClient.getApiService().putPost(str_put_id, da);
+
+                put_call.enqueue(new Callback<String>() {
+                 @Override
+                  public void onResponse(Call<String> call, Response<String> response) {
+                     Log.i("jun", "put 성공!");
+                   }
+
+                   @Override
+                   public void onFailure(Call<String> call, Throwable t) {
+                       Log.i("jun", "put 실패: " + t.getMessage());
+
+                    }
+               });
             }
         }
     }
