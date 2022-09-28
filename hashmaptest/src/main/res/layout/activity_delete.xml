@@ -9,20 +9,19 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/et_title"
+        android:id="@+id/et_delete_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="삭제할 id"/>
+
+    <EditText
+        android:id="@+id/et_delete_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="제목"/>
 
-    <ImageView
-        android:id="@+id/iv_test"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_gravity="center"
-        android:background="@drawable/edge"/>
-
     <EditText
-        android:id="@+id/et_content"
+        android:id="@+id/et_delete_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="내용"
@@ -36,17 +35,17 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_delete_ok"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="확인"
+            android:text="삭제"
             android:textColor="@color/black"
             android:backgroundTint="#E1D0D0"/>
 
         <Button
-            android:id="@+id/btn_cancel"
+            android:id="@+id/btn_delete_cancel"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
