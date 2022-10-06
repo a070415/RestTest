@@ -12,10 +12,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,10 +26,9 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView retrofitTextView;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
-    List<Datata> dataInfo;
+    List<FreeData> dataInfo;
     Uri currImageURI;
 
 
@@ -50,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 //        Retrofit 호출
-        Call<List<Datata>> call = ApiClient.getApiService().postOverlapCheck();
-        call.enqueue(new Callback<List<Datata>>() {
+        Call<List<FreeData>> call = ApiClient.getApiService().postOverlapCheck();
+        call.enqueue(new Callback<List<FreeData>>() {
             @Override
-            public void onResponse(Call<List<Datata>> call, Response<List<Datata>> response) {
+            public void onResponse(Call<List<FreeData>> call, Response<List<FreeData>> response) {
 //                if(!response.isSuccessful()){
 //                    retrofitTextView.setText("연결이 비정상적 : "+ "error code : " + response.code());
 //                    return;
@@ -69,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Datata>> call, Throwable t) {
+            public void onFailure(Call<List<FreeData>> call, Throwable t) {
             }
         });
 
@@ -104,108 +99,108 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                String str_title = data.getStringExtra("et_title");
-                String str_content = data.getStringExtra("et_content");
-                String str_uri = data.getStringExtra("image_uri");
-
-                //         Retrofit post 부분
-                Datata input = new Datata(null, str_title, str_content);
-
-                Call<String> post_test = ApiClient.getApiService().createPost(input);
-                post_test.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-
-                        Log.i("jun", "post 성공");
-                        Log.i("jun", "title: " + input.getTitle());
-                        Log.i("jun", "content: " + input.getContent());
-
-                    }
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.i("jun", "post 실패: " + t.getMessage());
-                    }
-                });
-
-                // image 파일 보내기
-                File file = new File(str_uri);
-                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
-                Log.i("test", "insertPromote: " + file.getName());
-                Log.i("test", "insertPromote: " + requestFile.contentType());
-                Log.i("test", "insertPromote: " + uploadFile.body());
-
-                Call<String> image_call = ApiClient.getApiService().imagePost(uploadFile);
-                image_call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.i("test", "성공");
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.i("test", "onFailure: " + t.getMessage());
-
-                    }
-                });
-
-
-
-            } else if (requestCode == 2) {
-                String str_put_title = data.getStringExtra("et_put_title");
-                String str_put_content = data.getStringExtra("et_put_content");
-                String str_put_id = data.getStringExtra("et_put_id");
-
-                // put 수정 부분
-                Datata da = new Datata(null, str_put_title, str_put_content);
-
-                Call<String> put_call = ApiClient.getApiService().putPost(str_put_id, da);
-
-                put_call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.i("jun", "put 성공!");
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.i("jun", "put 실패: " + t.getMessage());
-
-                    }
-                });
-            } else if (requestCode == 3) {
-                String str_delete_id = data.getStringExtra("et_delete_id");
-
-                // delete 삭제할 부분
-
-                Call<String> delete_call = ApiClient.getApiService().deletePost(str_delete_id);
-
-                delete_call.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        Log.i("jun", "delete 성공!");
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Log.i("jun", "delete 실패: " + t.getMessage());
-                    }
-                });
-//            } else if (requestCode == 5) {
-//                currImageURI = data.getData();
-//                Glide.with(getApplicationContext()).load(currImageURI).into(iv_test); //다이얼로그 이미지사진에 넣기
-//                Log.i("jun", "msg: " + getPathFromUri(currImageURI));
-
-
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == 1) {
+//                String str_title = data.getStringExtra("et_title");
+//                String str_content = data.getStringExtra("et_content");
+//                String str_uri = data.getStringExtra("image_uri");
+//
+//                //         Retrofit post 부분
+//                FreeImgData input = new FreeImgData(null, str_title, str_content);
+//
+//                Call<String> post_test = ApiClient.getApiService().createPost(input);
+//                post_test.enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//
+//                        Log.i("jun", "post 성공");
+//                        Log.i("jun", "title: " + input.getTitle());
+//                        Log.i("jun", "content: " + input.getContent());
+//
+//                    }
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//                        Log.i("jun", "post 실패: " + t.getMessage());
+//                    }
+//                });
+//
+//                // image 파일 보내기
+//                File file = new File(str_uri);
+//                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//                MultipartBody.Part uploadFile = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+//                Log.i("test", "insertPromote: " + file.getName());
+//                Log.i("test", "insertPromote: " + requestFile.contentType());
+//                Log.i("test", "insertPromote: " + uploadFile.body());
+//
+//                Call<String> image_call = ApiClient.getApiService().imagePost(uploadFile);
+//                image_call.enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//                        Log.i("test", "성공");
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//                        Log.i("test", "onFailure: " + t.getMessage());
+//
+//                    }
+//                });
+//
+//
+//
+//            } else if (requestCode == 2) {
+//                String str_put_title = data.getStringExtra("et_put_title");
+//                String str_put_content = data.getStringExtra("et_put_content");
+//                String str_put_id = data.getStringExtra("et_put_id");
+//
+//                // put 수정 부분
+//                FreeImgData da = new FreeImgData(null, str_put_title, str_put_content);
+//
+//                Call<String> put_call = ApiClient.getApiService().putPost(str_put_id, da);
+//
+//                put_call.enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//                        Log.i("jun", "put 성공!");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//                        Log.i("jun", "put 실패: " + t.getMessage());
+//
+//                    }
+//                });
+//            } else if (requestCode == 3) {
+//                String str_delete_id = data.getStringExtra("et_delete_id");
+//
+//                // delete 삭제할 부분
+//
+//                Call<String> delete_call = ApiClient.getApiService().deletePost(str_delete_id);
+//
+//                delete_call.enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//                        Log.i("jun", "delete 성공!");
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//                        Log.i("jun", "delete 실패: " + t.getMessage());
+//                    }
+//                });
+////            } else if (requestCode == 5) {
+////                currImageURI = data.getData();
+////                Glide.with(getApplicationContext()).load(currImageURI).into(iv_test); //다이얼로그 이미지사진에 넣기
+////                Log.i("jun", "msg: " + getPathFromUri(currImageURI));
+//
+//
+//            }
+//        }
+//    }
 
     //핸드폰 갤러리에 있는 사진의 uri 를 통해 경로를 얻는 것.
     public String getPathFromUri(Uri uri){

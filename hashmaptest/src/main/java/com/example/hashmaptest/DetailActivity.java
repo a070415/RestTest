@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView post_title;
     TextView post_content;
 
-    List<Datata> datataList;
+    List<FreeData> dataList;
 //    Datata data = new Datata();
 
     RecyclerView recyclerView;
@@ -34,13 +33,13 @@ public class DetailActivity extends AppCompatActivity {
         String title_data = intent.getExtras().getString("title");
         String contnet_data = intent.getExtras().getString("content");
 
-        Call<List<Datata>> call = ApiClient.getApiService().postOverlapCheck();
-        call.enqueue(new Callback<List<Datata>>() {
+        Call<List<FreeData>> call = ApiClient.getApiService().postOverlapCheck();
+        call.enqueue(new Callback<List<FreeData>>() {
             @Override
-            public void onResponse(Call<List<Datata>> call, Response<List<Datata>> response) {
+            public void onResponse(Call<List<FreeData>> call, Response<List<FreeData>> response) {
                 if(response.isSuccessful()) {
 
-                    datataList = response.body();
+                    dataList = response.body();
 
                     post_title = findViewById(R.id.post_title);
                     post_content = findViewById(R.id.post_content);
@@ -53,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<Datata>> call, Throwable t) {
+            public void onFailure(Call<List<FreeData>> call, Throwable t) {
 
             }
         });

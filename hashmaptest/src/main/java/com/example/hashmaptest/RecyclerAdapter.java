@@ -15,9 +15,9 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
     private Context c;
-    private List<Datata> dataList;
+    private List<FreeData> dataList;
 
-    public RecyclerAdapter(Context c, List<Datata> dataList) {
+    public RecyclerAdapter(Context c, List<FreeData> dataList) {
         this.c = c;
         this.dataList = dataList;
     }
@@ -38,15 +38,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 //        holder.address.setText("" + dataList.get(position).getAddress());
 
 //        holder.name.setText(dataList.get(position).getId());
-        holder.phone.setText("" + dataList.get(position).getTitle());
-        holder.address.setText("" + dataList.get(position).getContent());
+        holder.title.setText("" + dataList.get(position).getBoardTitle());
+        holder.content.setText("" + dataList.get(position).getBoardContent());
 
         holder.itemClickListener = new ItemClickListener() {
             @Override
             public void onItemClickListener(View v, int position) {
 
-                String title = dataList.get(position).getTitle();
-                String content = dataList.get(position).getContent();
+                String title = dataList.get(position).getBoardTitle();
+                String content = dataList.get(position).getBoardContent();
                 Intent intent = new Intent(v.getContext(), DetailActivity.class);
                 intent.putExtra("title", title);
                 intent.putExtra("content", content);
@@ -65,8 +65,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 //        TextView name;
-        TextView phone;
-        TextView address;
+        TextView title;
+        TextView content;
 
         ItemClickListener itemClickListener;
 
@@ -74,8 +74,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             super(itemView);
 
 //            name = (TextView) itemView.findViewById(R.id.dataName);
-            phone = (TextView) itemView.findViewById(R.id.dataPhone);
-            address = (TextView) itemView.findViewById(R.id.dataAddress);
+            title = (TextView) itemView.findViewById(R.id.dataTitle);
+            content = (TextView) itemView.findViewById(R.id.dataContent);
 
             itemView.setOnClickListener(this);
 
